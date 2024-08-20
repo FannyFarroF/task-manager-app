@@ -1,1 +1,10 @@
 /* @import './base.css'; */
+:root {
+  --primary-color: #182841;
+  --secondary-color: #22314e;
+  --accent-color: #9ff3e4;
+}
+
+.btn-custom {
+  background: var(--accent-color) !important;
+}
