@@ -1,4 +1,5 @@
 <script setup>
+import Title from '../components/title.vue'
 </script>
 
 <template>
@@ -6,16 +7,11 @@
     <div class="content px-3 py-2">
       <div class="row justify-content-between align-items-center">
         <div class="col-md-6">
-          <div class="logo">
-            <h5 class="text-white m-0">
-              <font-awesome-icon icon="tasks" class="me-2" />
-              Task Manager App
-            </h5>
-          </div>
+          <Title class="text-white" />
         </div>
         <div class="col-md-6 text-end">
-          <button class="btn btn-login" title="Iniciar Sesión">
-            <font-awesome-icon icon="user" />
+          <button class="btn btn-login" title="Cerrar Sesión">
+            <font-awesome-icon icon="sign-out-alt" />
           </button>
         </div>
       </div>

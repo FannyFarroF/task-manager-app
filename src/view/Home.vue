@@ -1,7 +1,7 @@
 <script setup>
-import Aside from './components/aside.vue'
-import Tasks from './components/tasks.vue'
-import Header from './components/header.vue'
+import Aside from '../components/aside.vue'
+import Tasks from '../components/tasks.vue'
+import Header from '../components/header.vue'
 import { ref } from 'vue'
 
 const list = ref([])
@@ -34,33 +34,31 @@ const updateTask = (newTask) => {
   })
 }
 </script>
-
 <template>
-  <div class="row p-0 justify-content-center">
-    <RouterView></RouterView>
-    <div class="creator p-2" title="Creado Por ffarro">
-      <img src="/public/creator.png" alt="" srcset="" class="w-auto" />
+  <div class="row p-0">
+    <div class="col-md-12">
+      <Header />
+    </div>
+    <div class="col-md-3 p-0">
+      <Aside
+        @addTask="addTask"
+        :idTaskEdit="idTaskEdit"
+        :nameTaskEdit="nameTaskEdit"
+        :descriptionTaskEdit="descriptionTaskEdit"
+        @updateTask="updateTask"
+      />
+    </div>
+    <div class="col-md-9 p-0">
+      <Tasks :list="list" @removeTask="removeTask" @moveTask="moveTask" @updateTask="editTask" />
     </div>
   </div>
 </template>
-
-<style>
+  
+  <style>
 #app {
   min-height: 100vh !important;
   background: #22314e;
   overflow-x: hidden;
 }
-.creator {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  width: 40px;
-  height: 40px;
-  background: #fff;
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  object-fit: contain;
-  border-radius: 50%;
-}
 </style>
+  
