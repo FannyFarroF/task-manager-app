@@ -10,8 +10,8 @@ const typeInput = ref('password')
 const store = useStore()
 const router = useRouter()
 
-const auth = async () => {
-  await store.dispatch('logIn', { email: email.value, password: password.value })
+const register = async () => {
+  await store.dispatch('register', { email: email.value, password: password.value })
   router.push('/home')
 }
 
@@ -25,7 +25,8 @@ const toogleTypeInputPassword = () => {
     <div class="card">
       <div class="card-body p-3">
         <Title class="text-center" />
-        <div class="form">
+        <div class="form mt-3">
+          <h6 class="text-center">Crear Cuenta</h6>
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <input
@@ -56,13 +57,13 @@ const toogleTypeInputPassword = () => {
             </div>
           </div>
           <div class="mb-3">
-            <button type="button" class="btn btn-primary w-100" @click="auth">
-              Iniciar Sesión
+            <button type="button" class="btn btn-primary w-100" @click="register">
+              Registrarse
             </button>
           </div>
           <div class="mb-3">
-            <router-link to="register" type="button" class="btn btn-light w-100">
-              Crear Cuenta
+            <router-link to="/" type="button" class="btn btn-light w-100">
+              Iniciar Sesión
             </router-link>
           </div>
         </div>
