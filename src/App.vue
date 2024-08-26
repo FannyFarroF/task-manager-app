@@ -1,45 +1,14 @@
 <script setup>
-import Aside from './components/aside.vue'
-import Tasks from './components/tasks.vue'
-import Header from './components/header.vue'
-import { ref } from 'vue'
 
-const list = ref([])
-const idTaskEdit = ref('')
-const nameTaskEdit = ref('')
-const descriptionTaskEdit = ref('')
-const addTask = (task) => list.value.push(task)
-const removeTask = (taskId) => {
-  list.value = list.value.filter((task) => task.id !== taskId)
-}
-const moveTask = (taskId, statusTask) => {
-  list.value.filter((task) => {
-    if (task.id == taskId) {
-      task.status = statusTask
-    }
-  })
-}
-const editTask = (taskId, nameTask, descriptionTask) => {
-  idTaskEdit.value = taskId
-  nameTaskEdit.value = nameTask
-  descriptionTaskEdit.value = descriptionTask
-}
-
-const updateTask = (newTask) => {
-  list.value.filter((task) => {
-    if (task.id == newTask.id) {
-      task.name = newTask.name
-      task.description = newTask.description
-    }
-  })
-}
 </script>
 
 <template>
   <div class="row p-0 justify-content-center">
     <RouterView></RouterView>
-    <div class="creator p-2" title="Creado Por ffarro">
-      <img src="/public/creator.png" alt="" srcset="" class="w-auto" />
+    <div class="creator p-2" title="Copyright © 2024 Fanny Farro">
+      <a href="https://devfannyfarro.netlify.app/" target="_blank" rel="noopener noreferrer">
+        <img src="/public/creator.png" alt="" srcset="" class="w-100" />
+      </a>
     </div>
   </div>
 </template>
@@ -62,5 +31,9 @@ const updateTask = (newTask) => {
   align-content: center;
   object-fit: contain;
   border-radius: 50%;
+}
+.creator a {
+  width: 100%;
+  height: 100%;
 }
 </style>

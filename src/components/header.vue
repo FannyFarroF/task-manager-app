@@ -1,5 +1,20 @@
 <script setup>
 import Title from '../components/title.vue'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
+
+const store = useStore()
+const router = useRouter()
+
+const logOut = async () => {
+  await store.dispatch('logOut')
+  router.push('/')
+}
+
+const username = computed(() => {
+  return store.state.user.email
+})
 </script>
 
 <template>
@@ -10,9 +25,23 @@ import Title from '../components/title.vue'
           <Title class="text-white" />
         </div>
         <div class="col-md-6 text-end">
-          <button class="btn btn-login" title="Cerrar Sesión">
-            <font-awesome-icon icon="sign-out-alt" />
-          </button>
+          <div class="btn-group">
+            <button
+              type="button"
+              class="btn btn-danger dropdown-toggle"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              {{ username }}
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" type="button" @click="logOut">
+                  <font-awesome-icon icon="sign-out-alt" /> Cerrar Sesión
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
