@@ -2,7 +2,7 @@
 import Card from '../components/card.vue'
 import { defineProps, defineEmits, computed } from 'vue'
 
-const props = defineProps(['list'])
+const props = defineProps(['finalList'])
 const emit = defineEmits(['removeTask', 'moveTask', 'updateTask'])
 
 const statuses = [
@@ -14,7 +14,7 @@ const statuses = [
 
 const filterTask = computed(() => {
   return statuses.reduce((acc, status) => {
-    acc[status.key] = props.list.filter((item) => item.status === status.key)
+    acc[status.key] = props.finalList.filter((item) => item.status === status.key)
     return acc
   }, {})
 })

@@ -1,28 +1,43 @@
 <script setup>
 import { ref, defineEmits, defineProps, watch } from 'vue'
+import axios from 'axios'
+import Toast from '../components/toast.vue'
+import { useStore } from 'vuex'
 
 const id = ref('')
 const name = ref('')
 const description = ref('')
 const status = ref('backlog')
 const showForm = ref(false)
+const showToast = ref(false)
+const message = ref('Task added successfully')
+const store = useStore()
 
 const props = defineProps(['idTaskEdit', 'nameTaskEdit', 'descriptionTaskEdit'])
-const emit = defineEmits(['addTask', 'updateTask'])
+const emit = defineEmits(['recoverTasks', 'updateTask'])
+const url = 'https://devvuejs-default-rtdb.asia-southeast1.firebasedatabase.app/'
+const uuid = store.state.user.uuid
 
 const saveTask = () => {
-  const newTask = {
-    id: '',
+  const task = {
+    id: id.value,
     name: name.value,
     description: description.value,
     status: status.value
   }
+
   if (id.value == '') {
-    newTask.id = Math.ceil(Math.random() * 1000000)
-    emit('addTask', newTask)
+    axios
+      .post(`${url}/tasks/${uuid}.json`, task)
+      .then(function (response) {
+        emit('recoverTasks')
+        showToast.value = true
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
   } else {
-    newTask.id = id.value
-    emit('updateTask', newTask)
+    emit('updateTask', task)
   }
 
   clearInputs()
@@ -71,6 +86,8 @@ watch(
           <button class="btn btn-success w-100" @click="saveTask">Save</button>
         </div>
       </div>
+
+      <Toast v-show="showToast" :message="message" />
     </div>
   </div>
 </template>

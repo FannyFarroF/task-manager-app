@@ -9,6 +9,7 @@ import {
 export default createStore({
   state: {
     user: {
+      uuid: null,
       token: null,
       loggedIn: false,
       email: null
@@ -32,6 +33,9 @@ export default createStore({
     SET_TOKEN(state, value) {
       state.user.token = value
     },
+    SET_UUID_USER(state, value) {
+      state.user.uuid = value
+    },
     CLEAR_TOKEN(state, value) {
       state.user.token = value
     }
@@ -41,12 +45,11 @@ export default createStore({
       const auth = getAuth()
       const response = await signInWithEmailAndPassword(auth, email, password)
       if (response) {
+        console.log(response)
         context.commit('SET_USER', email)
         context.commit('SET_LOGGED_IN', true)
         context.commit('SET_TOKEN', response._tokenResponse.idToken)
-
-        const resp = context.getters.user.loggedIn
-        console.log(resp)
+        context.commit('SET_UUID_USER', response.user.uid)
       } else {
         throw new Error('login failed')
       }
@@ -58,8 +61,7 @@ export default createStore({
         context.commit('SET_USER', email)
         context.commit('SET_LOGGED_IN', true)
         context.commit('SET_TOKEN', response._tokenResponse.idToken)
-
-        console.log('>> registrado !!')
+        context.commit('SET_UUID_USER', response.user.uid)
       } else {
         throw new Error('login failed')
       }
@@ -70,21 +72,7 @@ export default createStore({
       context.commit('SET_USER', null)
       context.commit('SET_LOGGED_IN', false)
       context.commit('SET_TOKEN', null)
-
-      const resp = context.getters.user.loggedIn
-      console.log(resp)
     }
-    // async fetchUser(context, user) {
-    //   context.commit('SET_LOGGED_IN', user !== null)
-    //   if (user) {
-    //     context.commit('SET_USER', {
-    //       displayName: user.displayName,
-    //       email: user.email
-    //     })
-    //   } else {
-    //     context.commit('SET_USER', null)
-    //   }
-    // }
   },
   modules: {}
 })
