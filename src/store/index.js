@@ -8,7 +8,7 @@ import {
 
 export default createStore({
   state: {
-    user: {
+    user: JSON.parse(localStorage.getItem('user')) || {
       uuid: null,
       token: null,
       loggedIn: false,
@@ -24,32 +24,42 @@ export default createStore({
     }
   },
   mutations: {
-    SET_LOGGED_IN(state, value) {
-      state.user.loggedIn = value
+    SET_DATA_USER(state, user) {
+      state.user = user
+      localStorage.setItem('user', JSON.stringify(user))
     },
-    SET_USER(state, value) {
-      state.user.email = value
-    },
-    SET_TOKEN(state, value) {
-      state.user.token = value
-    },
-    SET_UUID_USER(state, value) {
-      state.user.uuid = value
-    },
-    CLEAR_TOKEN(state, value) {
-      state.user.token = value
+    CLEAR_DATA_USER(state) {
+      state.user = {
+        uuid: null,
+        token: null,
+        loggedIn: false,
+        email: null
+      }
+      localStorage.removeItem('user')
     }
   },
   actions: {
+    synchronizeLocalStorage(context) {
+      const userData = {
+        user: context.getters.user.email,
+        token: context.getters.user.token,
+        uuid: context.getters.user.uuid,
+        loggedIn: context.getters.user.loggedIn
+      }
+      localStorage.setItem('user', JSON.stringify(userData))
+    },
     async logIn(context, { email, password }) {
       const auth = getAuth()
       const response = await signInWithEmailAndPassword(auth, email, password)
       if (response) {
-        console.log(response)
-        context.commit('SET_USER', email)
-        context.commit('SET_LOGGED_IN', true)
-        context.commit('SET_TOKEN', response._tokenResponse.idToken)
-        context.commit('SET_UUID_USER', response.user.uid)
+        const user = {
+          email: email,
+          token: response._tokenResponse.idToken,
+          uuid: response.user.uid,
+          loggedIn: true
+        }
+        context.commit('SET_DATA_USER', user)
+        this.dispatch('synchronizeLocalStorage')
       } else {
         throw new Error('login failed')
       }
@@ -57,11 +67,16 @@ export default createStore({
     async register(context, { email, password }) {
       const auth = getAuth()
       const response = await createUserWithEmailAndPassword(auth, email, password)
+
       if (response) {
-        context.commit('SET_USER', email)
-        context.commit('SET_LOGGED_IN', true)
-        context.commit('SET_TOKEN', response._tokenResponse.idToken)
-        context.commit('SET_UUID_USER', response.user.uid)
+        const user = {
+          email: email,
+          token: response._tokenResponse.idToken,
+          uuid: response.user.uid,
+          loggedIn: true
+        }
+        context.commit('SET_DATA_USER', user)
+        this.dispatch('synchronizeLocalStorage')
       } else {
         throw new Error('login failed')
       }
@@ -69,9 +84,7 @@ export default createStore({
     async logOut(context) {
       const auth = getAuth()
       await signOut(auth)
-      context.commit('SET_USER', null)
-      context.commit('SET_LOGGED_IN', false)
-      context.commit('SET_TOKEN', null)
+      context.commit('CLEAR_DATA_USER')
     }
   },
   modules: {}
