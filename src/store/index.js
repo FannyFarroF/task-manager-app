@@ -11,7 +11,6 @@ export default createStore({
     user: JSON.parse(localStorage.getItem('user')) || {
       uuid: null,
       token: null,
-      loggedIn: false,
       email: null
     }
   },
@@ -29,22 +28,16 @@ export default createStore({
       localStorage.setItem('user', JSON.stringify(user))
     },
     CLEAR_DATA_USER(state) {
-      state.user = {
-        uuid: null,
-        token: null,
-        loggedIn: false,
-        email: null
-      }
+      state.user = { uuid: null, token: null, email: null }
       localStorage.removeItem('user')
     }
   },
   actions: {
     synchronizeLocalStorage(context) {
       const userData = {
-        user: context.getters.user.email,
+        email: context.getters.user.email,
         token: context.getters.user.token,
-        uuid: context.getters.user.uuid,
-        loggedIn: context.getters.user.loggedIn
+        uuid: context.getters.user.uuid
       }
       localStorage.setItem('user', JSON.stringify(userData))
     },
@@ -55,8 +48,7 @@ export default createStore({
         const user = {
           email: email,
           token: response._tokenResponse.idToken,
-          uuid: response.user.uid,
-          loggedIn: true
+          uuid: response.user.uid
         }
         context.commit('SET_DATA_USER', user)
         this.dispatch('synchronizeLocalStorage')
@@ -72,8 +64,7 @@ export default createStore({
         const user = {
           email: email,
           token: response._tokenResponse.idToken,
-          uuid: response.user.uid,
-          loggedIn: true
+          uuid: response.user.uid
         }
         context.commit('SET_DATA_USER', user)
         this.dispatch('synchronizeLocalStorage')

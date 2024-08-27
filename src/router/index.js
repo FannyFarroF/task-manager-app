@@ -17,7 +17,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (store.getters.user.loggedIn) {
+    if (store.getters.user.token) {
       next()
     } else {
       next('/')

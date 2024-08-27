@@ -12,9 +12,8 @@ const logOut = async () => {
   router.push('/')
 }
 
-const username = computed(() => {
-  return store.state.user.email
-})
+const username = computed(() => store.state.user.email)
+
 </script>
 
 <template>
