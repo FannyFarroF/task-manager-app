@@ -1,14 +1,25 @@
-# task-manager-app
+# Task Manager App
 
-This template should help get you started developing with Vue 3 in Vite.
+Este proyecto es una aplicación realizada con Vue 3 que permite gestionar a los usuarios sus tareas. Con esta aplicación el usuario puede autenticarse, crear tareas, editarlas, eliminarlas y mover de estado.
 
-## Recommended IDE Setup
+## DEMO
+[https://taskmanagerappffarro.netlify.app/]
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Características
+- Iniciar sesión o Crear cuenta
+- Crear tareas
+- Editar tareas
+- Eliminar tareas
+- Cambiar de estado a las tareas
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+## Tecnologías usadas
+- Vue
+- Composition API
+- Vuex
+- Firebase Autentication
+- Realtime database
+- NoSQL
+- Local Storage
 
 ## Project Setup
 
